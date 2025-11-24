@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background:linear-gradient(to right,rgb(100, 196, 164),rgb(44, 138, 246));
+        }
+        .p{
+            display: inline-block;
+            width: 98%;
+            height: 500px;
+            background-color: #fdfdfd;
+            border-radius: 10px ;
+            margin-top: 20px;
+            margin-left: 1%;
+        }
+        .title{
+             font-size: 50px;
+             font-weight: 700;
+             text-align: center;
+             margin-top: 10px;
+        }
+        .put{
+            display: flex;
+            margin-top: 10px;
+            margin-left: 15%;
+        }
+        .search{
+             padding-left: 15px;
+            border: 1px solid #9f9f9f; 
+            outline: none;
+            width: 60%;
+            height: 45px;
+            border-radius: 20px 0 0 20px;
+            margin-bottom: 10px;
+        }
+        .ensure{
+            width: 10%;
+            height:49px;
+            border-radius: 0 20px 20px 0;
+            background:linear-gradient(to right,rgb(100, 196, 164),rgb(44, 138, 246));
+            font-size: 20px;
+            font-weight: 400;
+            text-align: center;
+            line-height: 45px;
+            color: #ffffff;
+            cursor: pointer;
+            user-select: none;
+        }
+       .c{
+            display: flex;
+            width: 80%;
+            height: 50px;
+            box-sizing: border-box;
+            margin: 15px auto;
+            padding: 16px;
+            color: rgb(0, 0, 0);
+            border: 1px solid #ffffff;
+            box-shadow: #828181 0px 4px 10px ;
+            border-radius: 20px;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .name.disabled {
+            color: #999;
+            pointer-events: none; 
+        }
+        .del a {
+            color: #0066cc; 
+            text-decoration: underline;
+        }
+        .del a.disabled {
+            color: #999; 
+            text-decoration: none; 
+            cursor: default; 
+        }
+    </style>
+</head>
+<body>
+    <div class="p"> 
+        <div class="title">溯光</div>
+        <div class="put">
+            <input type="text" class="search" placeholder="溯光而上，智通万象">    
+            <div class="ensure">探索</div>
+        </div>
+        <!-- 关键1：给复选框加 .toggle-checkbox 类（JS要靠这个找元素） -->
+        <!-- 关键2：给链接加 data-href 存储原始地址（禁用后要恢复） -->
+        <div class="c">
+            <div>
+                <input type="checkbox" class="toggle-checkbox">
+                <span class="name">菜鸟先飞</span>
+            </div>
+            <div class="del"><a href="https://www.runoob.com/" target="_blank" data-href="https://www.runoob.com/">https://www.runoob.com/</a></div>
+        </div>
+        <div class="c">
+            <div>
+                <input type="checkbox" class="toggle-checkbox">
+                <span class="name"></span>
+            </div>
+            <div class="del"></div>
+        </div>
+        <div class="c">
+            <div>
+                <input type="checkbox" class="toggle-checkbox">
+                <span class="name">记录美好生活</span>
+            </div>
+            <div class="del">
+                <a href="https://www.douyin.com/jingxuan" target="_blank" data-href="https://www.douyin.com/jingxuan">https://www.douyin.com/jingxuan</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. 获取所有带 .toggle-checkbox 类的复选框（现在复选框加了这个类，能找到了）
+        const checkboxes = document.querySelectorAll('.toggle-checkbox');
+
+        checkboxes.forEach(checkbox => {
+            // 2. 监听复选框状态变化
+            checkbox.addEventListener('change', function() {
+                const currentRow = this.closest('.c'); // 找到当前行
+                const nameText = currentRow.querySelector('.name'); // 找到文字
+                const link = currentRow.querySelector('.del a'); // 找到链接
+
+                if (this.checked) {
+                    // 3. 勾选：禁用文字和链接
+                    nameText.classList.add('disabled'); // 文字加禁用样式
+                    if (link) {
+                        link.classList.add('disabled'); // 链接加禁用样式
+                        link.removeAttribute('href'); // 彻底删除跳转地址（核心！）
+                    }
+                } else {
+                    // 4. 取消勾选：恢复文字和链接
+                    nameText.classList.remove('disabled'); // 移除文字禁用样式
+                    if (link) {
+                        link.classList.remove('disabled'); // 移除链接禁用样式
+                        const originalHref = link.getAttribute('data-href'); // 从 data-href 取原始地址
+                        link.setAttribute('href', originalHref); // 恢复跳转功能
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
